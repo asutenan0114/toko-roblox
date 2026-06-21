@@ -1,17 +1,19 @@
 {
   "version": 2,
+  "builds": [
+    {
+      "src": "server.js",
+      "use": "@vercel/node"
+    }
+  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/server.js"
     },
     {
-      "source": "/grow.html",
-      "destination": "/grow.html"
-    },
-    {
-      "source": "/google08ce9b79e1fff29d.html",
-      "destination": "/google08ce9b79e1fff29d.html"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

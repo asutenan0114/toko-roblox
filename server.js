@@ -8,12 +8,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Data Item Grow a Garden 2 Anda
+// Data Item Grow a Garden 2 Anda (Disesuaikan dengan nama file asli di folder public)
 const ITEMS_DATABASE = {
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/venus-fly-trap.png" },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/super-sprinkler.jpg" },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/super-water-can.jpg" },
-    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/rainbow-seed.jpg" },
+    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png" },
+    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg" },
+    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg" },
+    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg" },
     "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png" }
 };
 

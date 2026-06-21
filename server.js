@@ -32,7 +32,7 @@ const SERVER_KEY_DOCK = process.env.MIDTRANS_SERVER_KEY && process.env.MIDTRANS_
     : 'SB-Mid-server-ToDWmJ7ik3ydiDynamicKey';
 
 let snap = new midtransClient.Snap({
-    isProduction: false,
+    isProduction:IS_PROD,
     serverKey: SERVER_KEY_DOCK
 });
 

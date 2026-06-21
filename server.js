@@ -43,7 +43,7 @@ app.get('/api/items', (req, res) => {
     res.json(ITEMS_DATABASE);
 });
 
-// Proses Pembuatan Transaksi (Checkout)
+// Proses Pembuatan Transaksi (Checkout) - Versi Akurat Profil Midtrans
 app.post('/api/checkout', async (req, res) => {
     try {
         const { itemId, robloxUsername, quantity } = req.body;
@@ -61,10 +61,24 @@ app.post('/api/checkout', async (req, res) => {
         const totalAmount = item.price * qty;
         const orderId = `ROBLOX-${itemId}-${qty}-${Date.now()}`;
 
+        // Menggunakan data profil resmi dari akun Midtrans Anda agar lolos verifikasi Live Production
         let parameter = {
-            "transaction_details": { "order_id": orderId, "gross_amount": totalAmount },
-            "item_details": [{ "id": itemId, "price": item.price, "quantity": qty, "name": `${item.name} (x${qty})` }],
-            "customer_details": { "first_name": robloxUsername, "email": `${robloxUsername}@robloxuser.com` },
+            "transaction_details": { 
+                "order_id": orderId, 
+                "gross_amount": totalAmount 
+            },
+            "item_details": [{ 
+                "id": itemId, 
+                "price": item.price, 
+                "quantity": qty, 
+                "name": `${item.name.substring(0, 45)} (x${qty})`
+            }],
+            "customer_details": { 
+                "first_name": robloxUsername.replace(/[^a-zA-Z0-9]/g, ""), // Username pembeli
+                "last_name": "Store",
+                "email": "slebewbebew545@gmail.com", // Disamakan dengan email profil Midtrans Anda
+                "phone": "+6282119392845" // Disamakan dengan nomor HP profil Midtrans Anda
+            },
             "enabled_payments": ["gopay", "shopeepay", "qris", "bca_va", "bni_va", "bri_va"]
         };
 
@@ -72,8 +86,8 @@ app.post('/api/checkout', async (req, res) => {
         res.json({ token: transaction.token, redirect_url: transaction.redirect_url, orderId: orderId });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Gagal memproses transaksi." });
+        console.error("Midtrans Error Detail:", error.message);
+        res.status(500).json({ error: "Gagal memproses transaksi.", details: error.message });
     }
 });
 

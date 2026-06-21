@@ -60,4 +60,246 @@
 
         .contact-section { margin-top: 40px; padding: 30px 20px; background: #1a1a1a; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-bottom: 5px solid #4caf50; clear: both; }
         .contact-section h2 { color: #fff; margin-bottom: 20px; }
-        .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 2
+        .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; font-weight: bold; border-radius: 8px; text-decoration: none; color: white !important; transition: 0.3s; min-width: 180px; border: none; }
+        .contact-btn i { margin-right: 10px; font-size: 1.2rem; }
+        .btn-discord { background-color: #5865F2; }
+        .btn-discord:hover { background-color: #4752C4; }
+        .btn-telegram { background-color: #24A1DE; }
+        .btn-telegram:hover { background-color: #1D82B2; }
+        .btn-email { background-color: #EA4335; }
+        .btn-email:hover { background-color: #C53929; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero-section">
+        <h1>🎮 Welcome to Alfid Roblox Store</h1>
+        <p>Kami menyediakan berbagai macam <strong>Item Game Langka, Perkakas Booster, hingga Akun Roblox Premium</strong> dengan proses instan, aman, dan terpercaya. Pembayaran otomatis 24 jam via QRIS, DANA, OVO, LinkAja, dan Transfer Bank Virtual Account.</p>
+    </div>
+
+    <h3 style="color: #fff;">🎯 Pilih Kategori Game Roblox:</h3>
+    <div class="game-tabs">
+        <button id="btn-all" class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
+        <button id="btn-grow" class="tab-btn" onclick="filterGame('grow-a-garden-2')">🌱 Grow A Garden 2</button>
+        <button id="btn-fish" class="tab-btn" onclick="filterGame('fish-it')">🐟 Fish It</button>
+        <button id="btn-flash" class="tab-btn" onclick="filterGame('be-flash-for-brainrot')">⚡ Be Flash for Brainrot</button>
+        <button id="btn-lucky" class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
+        <button id="btn-ps99" class="tab-btn" onclick="filterGame('pet-simulator-99')">🐱 Pet Simulator 99</button>
+    </div>
+    
+    <div class="grid" id="items-container"></div>
+
+    <div class="reputation-section">
+        <div class="stats-inline">
+            <div class="stat-item"><i class="fas fa-shopping-basket"></i> <strong>1,250+</strong> Sukses</div>
+            <div class="stat-item"><i class="fas fa-bolt"></i> Proses <strong>&lt; 5 Menit</strong></div>
+            <div class="stat-item"><i class="fas fa-star"></i> Rating <strong>4.9 / 5.0</strong></div>
+        </div>
+
+        <div class="testimonials-inline">
+            <div class="testi-card">
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @RianGamerz</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                </div>
+                <p class="testi-text">"Beli Seed Defender langsung masuk otomatis kilat. Mantap!"</p>
+            </div>
+
+            <div class="testi-card">
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @Bintang_Blox</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                </div>
+                <p class="testi-text">"Sistem QRIS-nya lancar, dapet nota Discord instan."</p>
+            </div>
+
+            <div class="testi-card">
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @SitiRobloxia</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
+                </div>
+                <p class="testi-text">"Admin Telegram fast respon bantu cek ketersediaan item."</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>📞 Contact Us / Hubungi Kami</h2>
+        <p>Punya kendala dengan pesanan Anda atau butuh bantuan lebih lanjut? Hubungi admin melalui salah satu kontak di bawah:</p>
+        
+        <div class="contact-grid">
+            <a href="https://discord.gg/bEpFB8EwJg" target="_blank" rel="noopener noreferrer" class="contact-btn btn-discord">
+                <i class="fab fa-discord"></i> Join Discord
+            </a>
+            <a href="https://t.me/whoiam89" target="_blank" rel="noopener noreferrer" class="contact-btn btn-telegram">
+                <i class="fab fa-telegram-plane"></i> Telegram Admin
+            </a>
+            <a href="mailto:alfidhon.nabena@gmail.com" class="contact-btn btn-email">
+                <i class="fas fa-envelope"></i> Email Support
+            </a>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px dashed #444; padding-top: 20px; color: #aaa; font-size: 0.95rem; line-height: 1.6;">
+            <p>📢 <strong>Jam Operasional Layanan Admin:</strong> 08.00 - 22.00 WIB</p>
+            <p>⚠️ Jika setelah melakukan pembayaran item belum terkirim dalam 10 menit, segera hubungi kontak di atas dengan menyertakan foto bukti bayar atau <strong>Order ID</strong> pesanan Anda.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let allItems = {};
+
+    function loadItems() {
+        fetch('/api/items')
+            .then(res => res.json())
+            .then(items => {
+                allItems = items;
+                const activeTab = document.querySelector('.tab-btn.active');
+                const currentCategory = activeTab ? activeTab.id.replace('btn-', '') : 'all';
+                renderItems(currentCategory === 'grow' ? 'grow-a-garden-2' : currentCategory === 'ps99' ? 'pet-simulator-99' : 'all'); 
+            });
+    }
+
+    loadItems();
+
+    function renderItems(gameCategory) {
+        const container = document.getElementById('items-container');
+        container.innerHTML = ''; 
+        
+        let hasItem = false;
+
+        for (let id in allItems) {
+            const currentItem = allItems[id];
+            if (gameCategory === 'all' || currentItem.game === gameCategory) {
+                hasItem = true;
+                const imgUrl = currentItem.image ? currentItem.image : 'https://placehold.co/120';
+                const isOutOfStock = currentItem.stock <= 0;
+                
+                container.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <h3>${currentItem.name}</h3>
+                            <img src="${imgUrl}" alt="${currentItem.name}" class="product-img">
+                            <p>${currentItem.desc}</p>
+                        </div>
+                        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <div class="price">Rp ${currentItem.price.toLocaleString('id-ID')}</div>
+                            
+                            <div class="stock-badge ${isOutOfStock ? 'stock-empty' : ''}">
+                                ${isOutOfStock ? '❌ Stok Habis' : '📦 Stok: ' + currentItem.stock}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Username Roblox:</label>
+                                <input type="text" id="username-${id}" placeholder="Username Anda" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Jumlah Beli:</label>
+                                <input type="number" id="qty-${id}" value="${isOutOfStock ? 0 : 1}" min="1" max="${currentItem.stock}" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <button class="btn-buy" ${isOutOfStock ? 'disabled' : ''} onclick="checkout('${id}')">
+                                ${isOutOfStock ? 'Stok Kosong' : 'Beli Sekarang'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        if (!hasItem) {
+            container.innerHTML = `<p style="color: #888; font-style: italic; margin-top: 20px;">Stok item atau akun untuk game ini sedang kosong atau belum dimasukkan.</p>`;
+        }
+    }
+
+    function filterGame(category) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        if (event && event.target && event.target.classList.contains('tab-btn')) {
+            event.target.classList.add('active');
+        } else {
+            if (category === 'all') document.getElementById('btn-all').classList.add('active');
+            if (category === 'grow-a-garden-2') document.getElementById('btn-grow').classList.add('active');
+            if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
+            if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
+            if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
+            if (category === 'pet-simulator-99') document.getElementById('btn-ps99').classList.add('active');
+        }
+        
+        renderItems(category);
+    }
+
+    // UPDATE: Fungsi pembersihan total sisa-sisa overlay hitam milik Snap Midtrans
+    function cleanBlackscreen() {
+        const snapTokenDiv = document.getElementById('snap-token');
+        if (snapTokenDiv) snapTokenDiv.remove();
+        
+        const snapEmbed = document.getElementById('snap-embed');
+        if (snapEmbed) snapEmbed.remove();
+        
+        // Cari paksa elemen overlay bayangan gelap bawaan browser / iframe Snap dan hapus total
+        document.querySelectorAll('iframe[id^="snap-instance"], div[class^="snap-"], div[id^="snap-"]').forEach(el => el.remove());
+        document.body.style.overflow = 'auto';
+    }
+
+    function checkout(itemId) {
+        const username = document.getElementById(`username-${itemId}`).value;
+        const quantity = parseInt(document.getElementById(`qty-${itemId}`).value);
+        const maxStock = allItems[itemId].stock;
+
+        if (!username) {
+            alert('Harap isi Username Roblox Anda terlebih dahulu!');
+            return;
+        }
+        if (!quantity || quantity < 1) {
+            alert('Jumlah item minimal adalah 1!');
+            return;
+        }
+        if (quantity > maxStock) {
+            alert('Jumlah pembelian melebihi stok yang tersedia!');
+            return;
+        }
+
+        fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: itemId, robloxUsername: username, quantity: quantity })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.token) {
+                window.snap.pay(data.token, {
+                    onSuccess: function(result) { 
+                        alert("Pembayaran Berhasil! " + quantity + "x item akan dikirim ke akun: " + username); 
+                        cleanBlackscreen();
+                        loadItems();
+                    },
+                    onPending: function(result){ 
+                        alert("Menunggu pembayaran Anda."); 
+                        cleanBlackscreen();
+                    },
+                    onError: function(result){ 
+                        alert("Pembayaran gagal, atau metode belum tersedia karena akun sedang ditinjau."); 
+                        cleanBlackscreen();
+                    },
+                    onClose: function(){ 
+                        // Jika popup ditutup paksa / eror "no payment method", paksa hapus layar hitam
+                        cleanBlackscreen();
+                    }
+                });
+            } else {
+                alert("Gagal mendapatkan token pembayaran.");
+                cleanBlackscreen();
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            cleanBlackscreen();
+        });
+    }
+</script>
+</body>
+</html>

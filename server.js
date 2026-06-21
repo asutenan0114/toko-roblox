@@ -61,7 +61,50 @@ app.post('/api/payment-notification', (req, res) => {
     let notificationJson = req.body;
     snap.transaction.notification(notificationJson)
         .then((statusResponse) => {
+            let orderId = statusResponse.order_id;
+            let transactionStatus = statusResponse.transaction_status;
+            let fraudStatus = statusResponse.fraud_status;
+            let grossAmount = statusResponse.gross_amount;
+            let robloxUsername = statusResponse.customer_details ? statusResponse.customer_details.first_name : "Unknown";
+
+            // GANTI DENGAN URL WEBHOOK DISCORD ANDA SENDIRI DI SINI
+            const discordWebhookUrl = "https://discord.com/api/webhooks/1518106290440769577/-1ihe8omRW-l9RW7S6piMGWZAkR66bi-X2AnKvIX-p1XoilNHljKbnInJfpOCqIyKTru";
+
+            // Jika status transaksi sukses/selesai dibayar
+            if (transactionStatus == 'capture' || transactionStatus == 'settlement') {
+                if (fraudStatus == 'challenge') {
+                    // Transaksi dicurigai (opsional)
+                } else if (fraudStatus == 'accept') {
+                    // Transaksi sukses (untuk kartu kredit/debit)
+                }
+                
+                // Kirim Notifikasi ke Discord
+                if (discordWebhookUrl && discordWebhookUrl !== "MASUKKAN_URL_WEBHOOK_DISCORD_ANDA_DI_SINI") {
+                    fetch(discordWebhookUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            username: "Toko Roblox Notifier",
+                            avatar_url: "https://images.rbxcdn.com/97486801967262c502da285d820ef681.png",
+                            embeds: [{
+                                title: "🎉 TRANSAKSI BERHASIL! 🎉",
+                                color: 3066993, // Warna hijau
+                                fields: [
+                                    { name: "Order ID", value: orderId, inline: true },
+                                    { name: "Username Roblox", value: robloxUsername, inline: true },
+                                    { name: "Total Bayar", value: `Rp ${Number(grossAmount).toLocaleString('id-ID')}`, inline: false }
+                                ],
+                                timestamp: new Date()
+                            }]
+                        })
+                    }).catch(err => console.error("Gagal kirim ke Discord:", err));
+                }
+            }
+
             res.status(200).send('OK');
+        }).catch((err) => {
+            console.error(err);
+            res.status(500).send('Error');
         });
 });
 

@@ -149,8 +149,8 @@
 </div>
 
 <script>
-   // ==========================================
-    // 📝 DATA PRODUK ASLI MILIK MAS ALFID
+    // ==========================================
+    // 📝 DATA PRODUK STATIS (SUDAH DISINKRONKAN)
     // ==========================================
     let allItems = {
         "item-001": { 
@@ -203,6 +203,171 @@
         }
     };
 
+    function loadItems() {
+        const activeTab = document.querySelector('.tab-btn.active');
+        let currentCategory = 'all';
+        
+        if (activeTab) {
+            if (activeTab.id === 'btn-grow') currentCategory = 'grow-a-garden-2';
+            else if (activeTab.id === 'btn-fish') currentCategory = 'fish-it';
+            else if (activeTab.id === 'btn-flash') currentCategory = 'be-flash-for-brainrot';
+            else if (activeTab.id === 'btn-lucky') currentCategory = 'lucky-block-rush';
+            else if (activeTab.id === 'btn-ps99') currentCategory = 'pet-simulator-99';
+        }
+        
+        renderItems(currentCategory); 
+    }
+
+    // Jalankan pemuatan item pertama kali
+    loadItems();
+
+    function renderItems(gameCategory) {
+        const container = document.getElementById('items-container');
+        container.innerHTML = ''; 
+        
+        let hasItem = false;
+
+        for (let id in allItems) {
+            const currentItem = allItems[id];
+            if (gameCategory === 'all' || currentItem.game === gameCategory) {
+                hasItem = true;
+                const imgUrl = currentItem.image ? currentItem.image : 'https://placehold.co/120';
+                const isOutOfStock = currentItem.stock <= 0;
+                
+                container.innerHTML += `
+                    <div class="card">
+                        <div>
+                            <h3>${currentItem.name}</h3>
+                            <img src="${imgUrl}" alt="${currentItem.name}" class="product-img">
+                            <p>${currentItem.desc}</p>
+                        </div>
+                        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <div class="price">Rp ${currentItem.price.toLocaleString('id-ID')}</div>
+                            
+                            <div class="stock-badge ${isOutOfStock ? 'stock-empty' : ''}">
+                                ${isOutOfStock ? '❌ Stok Habis' : '📦 Stok: ' + currentItem.stock}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Username Roblox:</label>
+                                <input type="text" id="username-${id}" placeholder="Username Anda" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Jumlah Beli:</label>
+                                <input type="number" id="qty-${id}" value="${isOutOfStock ? 0 : 1}" min="1" max="${currentItem.stock}" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <button class="btn-buy" ${isOutOfStock ? 'disabled' : ''} onclick="checkout('${id}')">
+                                ${isOutOfStock ? 'Stok Kosong' : 'Beli Sekarang'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        if (!hasItem) {
+            container.innerHTML = `<p style="color: #888; font-style: italic; margin-top: 20px;">Stok item atau akun untuk game ini sedang kosong atau belum dimasukkan.</p>`;
+        }
+    }
+
+    function filterGame(category) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        if (category === 'all') document.getElementById('btn-all').classList.add('active');
+        else if (category === 'grow-a-garden-2') document.getElementById('btn-grow').classList.add('active');
+        else if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
+        else if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
+        else if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
+        else if (category === 'pet-simulator-99') document.getElementById('btn-ps99').classList.add('active');
+        
+        renderItems(category);
+    }
+
+    function cleanBlackscreen() {
+        const snapTokenDiv = document.getElementById('snap-token');
+        if (snapTokenDiv) snapTokenDiv.remove();
+        
+        const snapEmbed = document.getElementById('snap-embed');
+        if (snapEmbed) snapEmbed.remove();
+        
+        document.querySelectorAll('iframe[id^="snap-instance"], div[class^="snap-"], div[id^="snap-"]').forEach(el => el.remove());
+        document.body.style.overflow = 'auto';
+    }
+
+    function checkout(itemId) {
+        const usernameInput = document.getElementById(`username-${itemId}`);
+        const qtyInput = document.getElementById(`qty-${itemId}`);
+        
+        if (!usernameInput || !qtyInput) {
+            alert('Terjadi kesalahan sistem visual halaman.');
+            return;
+        }
+
+        const username = usernameInput.value.trim();
+        const quantity = parseInt(qtyInput.value);
+        const maxStock = allItems[itemId].stock;
+
+        if (!username) {
+            alert('Harap isi Username Roblox Anda terlebih dahulu!');
+            return;
+        }
+        if (!quantity || quantity < 1) {
+            alert('Jumlah item minimal adalah 1!');
+            return;
+        }
+        if (quantity > maxStock) {
+            alert('Jumlah pembelian melebihi stok yang tersedia!');
+            return;
+        }
+
+        // Mengirimkan kecocokan data ke backend API Vercel Anda
+        fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: itemId, robloxUsername: username, quantity: quantity })
+        })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Server bermasalah atau ID Item tidak ditemukan di backend.');
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data.token) {
+                window.snap.pay(data.token, {
+                    onSuccess: function(result) { 
+                        alert("Pembayaran Berhasil! " + quantity + "x item akan dikirim ke akun: " + username); 
+                        cleanBlackscreen();
+                        // Potong stok lokal di halaman web
+                        allItems[itemId].stock -= quantity;
+                        loadItems();
+                    },
+                    onPending: function(result){ 
+                        alert("Menunggu pembayaran Anda."); 
+                        cleanBlackscreen();
+                    },
+                    onError: function(result){ 
+                        alert("Pembayaran gagal, silakan coba beberapa saat lagi."); 
+                        cleanBlackscreen();
+                    },
+                    onClose: function(){ 
+                        cleanBlackscreen();
+                    }
+                });
+            } else {
+                alert("Gagal mendapatkan token pembayaran: " + (data.error || "Token kosong"));
+                cleanBlackscreen();
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Gagal memproses checkout. Pastikan backend Anda sudah mendukung ID: " + itemId);
+            cleanBlackscreen();
+        });
+    }
+</script>
     function loadItems() {
         // Menggunakan data statis langsung dari variabel allItems di atas
         const activeTab = document.querySelector('.tab-btn.active');

@@ -1,85 +1,41 @@
-const express = require('express');
-const midtransClient = require('midtrans-client');
-const bodyParser = require('body-parser');
-const https = require('https'); 
-const path = require('path');
-const app = express();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Grow a Garden 2 Items & Seeds | Alfid Roblox Store</title>
+    <meta name="description" content="Looking to buy Grow a Garden 2 items, mutations, or seeds? Alfid Roblox Store offers instant, safe, and 24/7 automatic delivery. Check our stock now!">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; background-color: #121212; color: #ffffff; }
+        .container { background: #1e1e1e; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        h1 { color: #4caf50; font-size: 28px; margin-bottom: 10px; }
+        p { line-height: 1.6; color: #cccccc; }
+        .keyword-bold { color: #ffffff; font-weight: bold; }
+        .product-card { border: 1px solid #333; background: #252525; padding: 20px; border-radius: 8px; margin-top: 20px; text-align: center; }
+        .product-img { width: 140px; height: 140px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #1a1a1a; padding: 5px; border: 1px solid #333; }
+        .btn-buy { background: #4caf50; color: #fff; padding: 12px 20px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold; margin-top: 10px; }
+        .btn-buy:hover { background: #45a049; }
+    </style>
+</head>
+<body>
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+    <div class="container">
+        <h1>Buy Grow a Garden 2 Items & Cheap Seeds</h1>
+        
+        <p>Welcome to Alfid Roblox Store, the ultimate marketplace to <span class="keyword-bold">buy Grow a Garden 2</span> items, rare seeds, and exclusive mutations. We provide a 100% secure, instant, and automatic trading system that operates 24/7. Get your booster tools now and level up your garden instantly!</p>
+        
+        <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
 
-// Membaca file statis (gambar, css, dll) langsung dari folder public
-app.use(express.static('public'));
+        <h2>:shopping_cart: Featured Item Shop</h2>
+        
+        <div class="product-card">
+            <h3>:seedling: Super Sprinkler</h3>
+            <img src="/Super Sprinkler.jpg" alt="Buy Super Sprinkler Grow a Garden 2" class="product-img">
+            <p>Dapatkan Super Sprinkler untuk mempercepat pertumbuhan tanaman (Fasting grow Fruit) Anda di game Grow a Garden 2. Proses instan kurang dari 5 menit!</p>
+            <p style="font-size: 22px; font-weight: bold; color: #ff9800;">Price: Rp 5.000</p>
+            <a href="https://toko-roblox.vercel.app/" class="btn-buy">Beli Otomatis di Beranda Toko</a>
+        </div>
+    </div>
 
-// Data Item Toko
-let ITEMS_DATABASE = {
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2", stock: 50 },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2", stock: 30 },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2", stock: 25 },
-    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg", game: "grow-a-garden-2", stock: 100 },
-    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2", stock: 10 },
-    "item-006": { name: "1B Gems / Diamonds", price: 22000, desc: "Gems legal aman proses cepat via Mailbox.", image: "/gems.jpg", game: "pet-simulator-99", stock: 5 }
-};
-
-const SERVER_KEY_DOCK = process.env.MIDTRANS_SERVER_KEY || 'SB-Mid-server-ToDWmJ7ik3ydiDynamicKey';
-const IS_PROD = process.env.MIDTRANS_IS_PRODUCTION === 'true' || false;
-
-let snap = new midtransClient.Snap({
-    isProduction: IS_PROD,
-    serverKey: SERVER_KEY_DOCK
-});
-
-// Endpoint API Ambil Data
-app.get('/api/items', (req, res) => {
-    res.json(ITEMS_DATABASE);
-});
-
-// Route rute untuk halaman utama toko
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// Route rute untuk halaman khusus SEO Grow a Garden 2 (Diarahkan ke folder public)
-app.get('/grow.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'grow.html'));
-});
-
-// Endpoint Checkout Midtrans
-app.post('/api/checkout', (req, res) => {
-    const { itemId, robloxUsername, quantity } = req.body;
-    const currentItem = ITEMS_DATABASE[itemId];
-
-    if (!currentItem || currentItem.stock < quantity) {
-        return res.status(400).json({ error: 'Stok tidak mencukupi atau item tidak valid.' });
-    }
-
-    let parameter = {
-        "transaction_details": {
-            "order_id": "ALFID-" + itemId + "-" + Date.now(),
-            "gross_amount": currentItem.price * quantity
-        },
-        "credit_card": { "secure": true },
-        "item_details": [{
-            "id": itemId,
-            "price": currentItem.price,
-            "quantity": quantity,
-            "name": currentItem.name
-        }],
-        "customer_details": {
-            "first_name": robloxUsername,
-            "email": "customer@toko-roblox.vercel.app"
-        }
-    };
-
-    snap.createTransaction(parameter)
-        .then((transaction) => res.json({ token: transaction.token }))
-        .catch((err) => res.status(500).json({ error: err.message }));
-});
-
-// Jalankan server jika lokal
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = 3000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
-
-module.exports = app;
+</body>
+</html>

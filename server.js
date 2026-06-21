@@ -17,7 +17,7 @@ let ITEMS_DATABASE = {
     "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2", stock: 5 },
     
     "item-006": { 
-        name: "10.000.000 Gems / Diamonds", 
+        name: "1B Gems / Diamonds", 
         price: 22000, 
         desc: "Gems legal aman proses cepat via Mailbox.", 
         image: "/gems.jpg", 

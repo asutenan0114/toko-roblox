@@ -86,6 +86,7 @@
         <button id="btn-fish" class="tab-btn" onclick="filterGame('fish-it')">🐟 Fish It</button>
         <button id="btn-flash" class="tab-btn" onclick="filterGame('be-flash-for-brainrot')">⚡ Be Flash for Brainrot</button>
         <button id="btn-lucky" class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
+        <button id="btn-ps99" class="tab-btn" onclick="filterGame('pet-simulator-99')">🐱 Pet Simulator 99</button>
     </div>
     
     <div class="grid" id="items-container"></div>
@@ -202,6 +203,7 @@
             if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
             if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
             if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
+            if (category === 'pet-simulator-99') document.getElementById('btn-ps99').classList.add('active');
         }
         
         renderItems(category);

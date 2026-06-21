@@ -3,7 +3,7 @@ const midtransClient = require('midtrans-client');
 const bodyParser = require('body-parser');
 const https = require('https'); // Menggunakan modul bawaan resmi Node.js agar tidak crash di Vercel
 require('dotenv').config();
-
+const path = require('path');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,7 +42,13 @@ let snap = new midtransClient.Snap({
 app.get('/api/items', (req, res) => {
     res.json(ITEMS_DATABASE);
 });
+app.get('/grow.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'grow.html'));
+});
 
+app.get('/google08ce9b79e1fff29d.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'google08ce9b79e1fff29d.html'));
+});
 // Proses Pembuatan Transaksi (Checkout) - Versi Akurat Tanpa Pembatasan Metode Pembayaran
 app.post('/api/checkout', async (req, res) => {
     try {

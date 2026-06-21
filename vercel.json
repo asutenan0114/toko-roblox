@@ -1,23 +1,17 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/google08ce9b79e1fff29d.html",
-      "dest": "/google08ce9b79e1fff29d.html"
+      "source": "/api/(.*)",
+      "destination": "/server.js"
     },
     {
-      "src": "/grow.html",
-      "dest": "/grow.html"
+      "source": "/grow.html",
+      "destination": "/grow.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "server.js"
+      "source": "/google08ce9b79e1fff29d.html",
+      "destination": "/google08ce9b79e1fff29d.html"
     }
   ]
 }

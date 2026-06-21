@@ -36,22 +36,23 @@
         button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
         button.btn-buy:hover { background-color: #45a049; }
         
-        /* REPUTASI TOKO SECTION */
-        .reputation-section { margin-top: 50px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 5px solid #ff9800; text-align: left; }
-        .reputation-section h2 { color: #e65100; text-align: center; margin-bottom: 25px; }
+        /* REPUTASI TOKO SATU JALUR (SLIM LINEAR) */
+        .reputation-section { margin-top: 40px; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 4px solid #ff9800; text-align: center; }
         
-        .stats-grid { display: flex; justify-content: space-around; gap: 15px; flex-wrap: wrap; text-align: center; margin-bottom: 30px; border-bottom: 1px dashed #ddd; padding-bottom: 25px; }
-        .stat-box { flex: 1; min-width: 150px; }
-        .stat-box i { font-size: 2.5rem; color: #ff9800; margin-bottom: 10px; }
-        .stat-number { font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .stat-label { color: #666; font-size: 0.95rem; }
+        /* Statistik Sederhana Sebaris */
+        .stats-inline { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; background: #fffcf7; padding: 12px; border-radius: 8px; border: 1px dashed #ffe0b2; }
+        .stat-item { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #444; font-weight: 500; }
+        .stat-item i { color: #ff9800; font-size: 1.1rem; }
+        .stat-item strong { color: #e65100; font-size: 1.05rem; }
 
-        .testimonials-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .testi-card { background: #f9f9f9; border-radius: 10px; padding: 20px; width: 280px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); border-left: 4px solid #ff9800; display: flex; flex-direction: column; justify-content: space-between; }
-        .testi-stars { color: #ffca28; margin-bottom: 10px; }
-        .testi-text { font-style: italic; color: #444; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
-        .testi-user { font-weight: bold; color: #222; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-        .testi-user i { color: #4caf50; font-size: 0.85rem; }
+        /* Review Satu Jalur Horisontal Rapi */
+        .testimonials-inline { display: flex; gap: 15px; justify-content: space-between; overflow-x: auto; padding: 5px 0; }
+        .testi-card { background: #f9f9f9; border-radius: 8px; padding: 12px 15px; flex: 1; min-width: 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 3px solid #ff9800; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .testi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .testi-stars { color: #ffca28; font-size: 0.8rem; }
+        .testi-user { font-weight: bold; color: #222; font-size: 0.85rem; }
+        .testi-user i { color: #4caf50; font-size: 0.8rem; margin-right: 3px; }
+        .testi-text { font-style: italic; color: #555; font-size: 0.85rem; line-height: 1.4; margin: 0; }
 
         /* Contact Us */
         .contact-section { margin-top: 40px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
@@ -89,60 +90,39 @@
     <!-- Wadah Kotak Produk -->
     <div class="grid" id="items-container"></div>
 
-    <!-- BAGIAN REPUTASI TOKO & TESTIMONI -->
+    <!-- BAGIAN REPUTASI TOKO SATU JALUR SLIM -->
     <div class="reputation-section">
-        <h2>🏅 Reputasi & Keunggulan Alfid Store</h2>
-        
-        <!-- Statistik Toko -->
-        <div class="stats-grid">
-            <div class="stat-box">
-                <i class="fas fa-shopping-basket"></i>
-                <div class="stat-number">1,250+</div>
-                <div class="stat-label">Pesanan Sukses</div>
-            </div>
-            <div class="stat-box">
-                <i class="fas fa-bolt"></i>
-                <div class="stat-number">&lt; 5 Menit</div>
-                <div class="stat-label">Rata-rata Pengiriman</div>
-            </div>
-            <div class="stat-box">
-                <i class="fas fa-star"></i>
-                <div class="stat-number">4.9 / 5.0</div>
-                <div class="stat-label">Rating Kepuasan</div>
-            </div>
+        <!-- Stats Baris Ramping -->
+        <div class="stats-inline">
+            <div class="stat-item"><i class="fas fa-shopping-basket"></i> <strong>1,250+</strong> Sukses</div>
+            <div class="stat-item"><i class="fas fa-bolt"></i> Proses <strong>&lt; 5 Menit</strong></div>
+            <div class="stat-item"><i class="fas fa-star"></i> Rating <strong>4.9 / 5.0</strong></div>
         </div>
 
-        <!-- Contoh Ulasan Pembeli -->
-        <h3 style="text-align: center; color: #444; margin-bottom: 20px;">💬 Apa Kata Pembeli Kami?</h3>
-        <div class="testimonials-grid">
+        <!-- Ulasan Horizontal Satu Jalur -->
+        <div class="testimonials-inline">
             <div class="testi-card">
-                <div>
-                    <div class="testi-stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="testi-text">"Gokil sih, nyoba beli Seed Defender di Grow A Garden 2 langsung diproses kilat. Barangnya masuk akurat. Recommended seller!"</p>
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @RianGamerz</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
                 </div>
-                <div class="testi-user"><i class="fas fa-check-circle"></i> @RianGamerz</div>
+                <p class="testi-text">"Beli Seed Defender langsung masuk otomatis kilat. Mantap!"</p>
             </div>
 
             <div class="testi-card">
-                <div>
-                    <div class="testi-stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="testi-text">"Awalnya ragu karena baru pertama beli item game Roblox via QRIS otomatis di sini, pas dicoba langsung dapet nota Discord dan item beres dikirim."</p>
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @Bintang_Blox</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
                 </div>
-                <div class="testi-user"><i class="fas fa-check-circle"></i> @Bintang_Blox</div>
+                <p class="testi-text">"Sistem QRIS-nya lancar, dapet nota Discord instan."</p>
             </div>
 
             <div class="testi-card">
-                <div>
-                    <div class="testi-stars">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <p class="testi-text">"Pelayanan admin ramah banget waktu tanya-tanya ketersediaan item Fish It lewat Telegram. Mantap terus Alfid Store!"</p>
+                <div class="testi-header">
+                    <span class="testi-user"><i class="fas fa-check-circle"></i> @SitiRobloxia</span>
+                    <span class="testi-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
                 </div>
-                <div class="testi-user"><i class="fas fa-check-circle"></i> @SitiRobloxia</div>
+                <p class="testi-text">"Admin Telegram fast respon bantu cek ketersediaan item."</p>
             </div>
         </div>
     </div>
@@ -174,7 +154,6 @@
 <script>
     let allItems = {};
 
-    // Ambil data item dari backend saat website dibuka
     fetch('/api/items')
         .then(res => res.json())
         .then(items => {

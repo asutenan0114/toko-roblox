@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow a Garden 2 Item Shop</title>
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-VQQDJnZ33cu4stsw"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 900px; margin: auto; }
+        h1 { color: #2e7d32; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; margin-bottom: 50px; }
+        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; }
+        .price { font-size: 1.2rem; color: #e65100; font-weight: bold; margin: 10px 0; }
+        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #ccc; border-radius: 6px; }
+        button { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
+        button:hover { background-color: #45a049; }
+        
+        /* Gaya untuk Section Contact Us */
+        .contact-section { margin-top: 50px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
+        .contact-section h2 { color: #333; margin-bottom: 20px; }
+        .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
+        .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; font-weight: bold; border-radius: 8px; text-decoration: none; color: white !important; transition: 0.3s; min-width: 180px; border: none; }
+        .contact-btn i { margin-right: 10px; font-size: 1.2rem; }
+        .btn-discord { background-color: #5865F2; }
+        .btn-discord:hover { background-color: #4752C4; }
+        .btn-telegram { background-color: #24A1DE; }
+        .btn-telegram:hover { background-color: #1D82B2; }
+        .btn-email { background-color: #EA4335; }
+        .btn-email:hover { background-color: #C53929; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🌱 Grow a Garden 2 Item Store</h1>
+    <p>Beli item mutasi dan perkakas kebun instan. Pembayaran otomatis via QRIS, DANA, OVO, dll.</p>
+    
+    <div class="grid" id="items-container"></div>
+
+    <div class="contact-section">
+        <h2>📞 Contact Us / Hubungi Kami</h2>
+        <p>Punya kendala dengan pesanan Anda atau butuh bantuan lebih lanjut? Hubungi admin melalui salah satu kontak di bawah:</p>
+        
+        <div class="contact-grid">
+            <a href="https://discord.gg/bEpFB8EwJg" target="_blank" rel="noopener noreferrer" class="contact-btn btn-discord">
+                <i class="fab fa-discord"></i> Join Discord
+            </a>
+            <a href="https://t.me/whoiam89" target="_blank" rel="noopener noreferrer" class="contact-btn btn-telegram">
+                <i class="fab fa-telegram-plane"></i> Telegram Admin
+            </a>
+            <a href="mailto:alfidhon.nabena@gmail.com" class="contact-btn btn-email">
+                <i class="fas fa-envelope"></i> Email Support
+            </a>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px; color: #555; font-size: 0.95rem; line-height: 1.6;">
+            <p>📢 <strong>Jam Operasional Layanan Admin:</strong> 08.00 - 22.00 WIB</p>
+            <p>⚠️ Jika setelah melakukan pembayaran item belum terkirim dalam 10 menit, segera hubungi kontak di atas dengan menyertakan foto bukti bayar atau <strong>Order ID</strong> pesanan Anda.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    fetch('/api/items')
+        .then(res => res.json())
+        .then(items => {
+            const container = document.getElementById('items-container');
+            container.innerHTML = ''; 
+            for (let id in items) {
+                container.innerHTML += `
+                    <div class="card">
+                        <h3>${items[id].name}</h3>
+                        <p>${items[id].desc}</p>
+                        <div class="price">Rp ${items[id].price.toLocaleString('id-ID')}</div>
+                        <input type="text" id="username-${id}" placeholder="Username Roblox Anda" required>
+                        <br><br>
+                        <button onclick="checkout('${id}')">Beli Sekarang</button>
+                    </div>
+                `;
+            }
+        });
+
+    function checkout(itemId) {
+        const username = document.getElementById(`username-${itemId}`).value;
+        if (!username) {
+            alert('Harap isi Username Roblox Anda terlebih dahulu!');
+            return;
+        }
+
+        fetch('/api/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ itemId: itemId, robloxUsername: username })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.token) {
+                window.snap.pay(data.token, {
+                    onSuccess: function(result){ alert("Pembayaran Berhasil! Item akan dikirim ke akun: " + username); },
+                    onPending: function(result){ alert("Menunggu pembayaran Anda."); },
+                    onError: function(result){ alert("Pembayaran gagal, silahkan coba lagi."); }
+                });
+            } else {
+                alert("Gagal mendapatkan token pembayaran.");
+            }
+        })
+        .catch(err => console.error(err));
+    }
+</script>
+</body>
+</html>

@@ -8,13 +8,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Data Item Grow a Garden 2 Anda (Disesuaikan dengan nama file asli di folder public)
+// Data Item Grow a Garden 2 Anda (DIKUNCI DENGAN TAG GAME YANG BENAR)
 const ITEMS_DATABASE = {
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png" },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg" },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg" },
-    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg" },
-    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png" }
+    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2" },
+    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2" },
+    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2" },
+    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg", game: "grow-a-garden-2" },
+    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2" }
 };
 
 // Menggunakan kunci sandbox universal agar sistem pembayaran langsung aktif
@@ -67,19 +67,10 @@ app.post('/api/payment-notification', (req, res) => {
             let grossAmount = statusResponse.gross_amount;
             let robloxUsername = statusResponse.customer_details ? statusResponse.customer_details.first_name : "Unknown";
 
-            // GANTI DENGAN URL WEBHOOK DISCORD ANDA SENDIRI DI SINI
             const discordWebhookUrl = "https://discord.com/api/webhooks/1518106290440769577/-1ihe8omRW-l9RW7S6piMGWZAkR66bi-X2AnKvIX-p1XoilNHljKbnInJfpOCqIyKTru";
 
-            // Jika status transaksi sukses/selesai dibayar
             if (transactionStatus == 'capture' || transactionStatus == 'settlement') {
-                if (fraudStatus == 'challenge') {
-                    // Transaksi dicurigai (opsional)
-                } else if (fraudStatus == 'accept') {
-                    // Transaksi sukses (untuk kartu kredit/debit)
-                }
-                
-                // Kirim Notifikasi ke Discord
-                if (discordWebhookUrl && discordWebhookUrl !== "MASUKKAN_URL_WEBHOOK_DISCORD_ANDA_DI_SINI") {
+                if (discordWebhookUrl) {
                     fetch(discordWebhookUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -88,7 +79,7 @@ app.post('/api/payment-notification', (req, res) => {
                             avatar_url: "https://images.rbxcdn.com/97486801967262c502da285d820ef681.png",
                             embeds: [{
                                 title: "🎉 TRANSAKSI BERHASIL! 🎉",
-                                color: 3066993, // Warna hijau
+                                color: 3066993,
                                 fields: [
                                     { name: "Order ID", value: orderId, inline: true },
                                     { name: "Username Roblox", value: robloxUsername, inline: true },
@@ -108,8 +99,8 @@ app.post('/api/payment-notification', (req, res) => {
         });
 });
 
-// Menjalankan server di port 3000
 const PORT = process.env.PORT || 3000;
+app.use(express.json());
 app.listen(PORT, () => {
     console.log(`Server berjalan di http://localhost:${PORT}`);
 });

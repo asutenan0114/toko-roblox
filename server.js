@@ -10,11 +10,11 @@ app.use(express.static('public'));
 
 // Data Item Berbagai Game (SUDAH DITAMBAHKAN STOK)
 let ITEMS_DATABASE = {
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2", stock: 50 },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2", stock: 30 },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2", stock: 25 },
+    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2", stock: 20 },
+    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2", stock: 15 },
+    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2", stock: 15 },
     "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg", game: "grow-a-garden-2", stock: 100 },
-    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2", stock: 10 },
+    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2", stock: 5 },
     
     "item-006": { 
         name: "10.000.000 Gems / Diamonds", 
@@ -22,7 +22,7 @@ let ITEMS_DATABASE = {
         desc: "Gems legal aman proses cepat via Mailbox.", 
         image: "/gems.jpg", 
         game: "pet-simulator-99",
-        stock: 15 // Contoh stok awal gems
+        stock: 5 
     }
 };
 

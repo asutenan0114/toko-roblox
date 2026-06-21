@@ -5,6 +5,7 @@ const https = require('https'); // Menggunakan modul bawaan resmi Node.js agar t
 require('dotenv').config();
 const path = require('path');
 const app = express();
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -42,13 +43,22 @@ let snap = new midtransClient.Snap({
 app.get('/api/items', (req, res) => {
     res.json(ITEMS_DATABASE);
 });
+
+// RUTE HALAMAN UTAMA (INDEX)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// RUTE KHUSUS HALAMAN GROW (ANTI 404 VERCEL)
 app.get('/grow.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'grow.html'));
 });
 
+// RUTE VERIFIKASI GOOGLE SEARCH CONSOLE
 app.get('/google08ce9b79e1fff29d.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'google08ce9b79e1fff29d.html'));
 });
+
 // Proses Pembuatan Transaksi (Checkout) - Versi Akurat Tanpa Pembatasan Metode Pembayaran
 app.post('/api/checkout', async (req, res) => {
     try {
@@ -65,9 +75,9 @@ app.post('/api/checkout', async (req, res) => {
         }
 
         const totalAmount = item.price * qty;
+        // Format Order ID menggunakan ROBLOX-itemId-qty-timestamp
         const orderId = `ROBLOX-${itemId}-${qty}-${Date.now()}`;
 
-        // UPDATE: Parameter dioptimalkan, enabled_payments dihapus agar mengikuti dashboard secara dinamis
         let parameter = {
             "transaction_details": { 
                 "order_id": orderId, 
@@ -108,7 +118,8 @@ app.post('/api/payment-notification', (req, res) => {
 
             if (transactionStatus == 'capture' || transactionStatus == 'settlement') {
                 const parts = orderId.split('-');
-                if (parts[1] === 'item' && parts[2]) {
+                // Perbaikan Logika Pemotongan Stok: parts[0] adalah 'ROBLOX', parts[1] adalah 'item', parts[2] adalah nomor item
+                if (parts[0] === 'ROBLOX' && parts[1] === 'item' && parts[2]) {
                     const targetItemId = `${parts[1]}-${parts[2]}`;
                     const purchasedQty = parseInt(parts[3]) || 1;
 
@@ -137,3 +148,39 @@ app.post('/api/payment-notification', (req, res) => {
 
                 const urlParts = new URL(discordWebhookUrl);
                 const options = {
+                    hostname: urlParts.hostname,
+                    path: urlParts.pathname + urlParts.search,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(discordData)
+                    }
+                };
+
+                const reqDiscord = https.request(options, (response) => {
+                    response.on('data', () => {});
+                });
+
+                reqDiscord.on('error', (e) => {
+                    console.error(`Discord Webhook Error: ${e.message}`);
+                });
+
+                reqDiscord.write(discordData);
+                reqDiscord.end();
+            }
+
+            res.status(200).send('OK');
+        })
+        .catch((err) => {
+            console.error("Notification Error:", err.message);
+            res.status(500).json({ error: err.message });
+        });
+});
+
+// Port listen lokal jika tidak di-deploy ke produksi
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;

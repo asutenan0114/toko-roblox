@@ -149,19 +149,77 @@
 </div>
 
 <script>
-    let allItems = {};
+   // ==========================================
+    // 📝 DATA PRODUK ASLI MILIK MAS ALFID
+    // ==========================================
+    let allItems = {
+        "item-001": { 
+            name: "Seed Defender", 
+            price: 8000, 
+            desc: "Venus Fly Trap seed.", 
+            image: "/Venus Fly Trap seed.png", 
+            game: "grow-a-garden-2", 
+            stock: 50 
+        },
+        "item-002": { 
+            name: "Fasting grow Fruit", 
+            price: 5000, 
+            desc: "Super Sprinkler.", 
+            image: "/Super Sprinkler.jpg", 
+            game: "grow-a-garden-2", 
+            stock: 30 
+        },
+        "item-003": { 
+            name: "Grow up Fruit", 
+            price: 5000, 
+            desc: "Super Water Can.", 
+            image: "/Super Water Can.jpg", 
+            game: "grow-a-garden-2", 
+            stock: 25 
+        },
+        "item-004": { 
+            name: "Seed Event", 
+            price: 3000, 
+            desc: "Rainbow Seed.", 
+            image: "/Rainbow Seed.jpg", 
+            game: "grow-a-garden-2", 
+            stock: 100 
+        },
+        "item-005": { 
+            name: "Pet", 
+            price: 15000, 
+            desc: "Unicorn.", 
+            image: "/pet-unicorn.png", 
+            game: "grow-a-garden-2", 
+            stock: 10 
+        },
+        "item-006": { 
+            name: "1B Gems / Diamonds", 
+            price: 22000, 
+            desc: "Gems legal aman proses cepat via Mailbox.", 
+            image: "/gems.jpg", 
+            game: "pet-simulator-99",
+            stock: 5
+        }
+    };
 
     function loadItems() {
-        fetch('/api/items')
-            .then(res => res.json())
-            .then(items => {
-                allItems = items;
-                const activeTab = document.querySelector('.tab-btn.active');
-                const currentCategory = activeTab ? activeTab.id.replace('btn-', '') : 'all';
-                renderItems(currentCategory === 'grow' ? 'grow-a-garden-2' : currentCategory === 'ps99' ? 'pet-simulator-99' : 'all'); 
-            });
+        // Menggunakan data statis langsung dari variabel allItems di atas
+        const activeTab = document.querySelector('.tab-btn.active');
+        
+        let currentCategory = 'all';
+        if (activeTab) {
+            if (activeTab.id === 'btn-grow') currentCategory = 'grow-a-garden-2';
+            else if (activeTab.id === 'btn-fish') currentCategory = 'fish-it';
+            else if (activeTab.id === 'btn-flash') currentCategory = 'be-flash-for-brainrot';
+            else if (activeTab.id === 'btn-lucky') currentCategory = 'lucky-block-rush';
+            else if (activeTab.id === 'btn-ps99') currentCategory = 'pet-simulator-99';
+        }
+        
+        renderItems(currentCategory); 
     }
 
+    // Jalankan pemuatan item pertama kali halaman dibuka
     loadItems();
 
     function renderItems(gameCategory) {
@@ -218,21 +276,16 @@
     function filterGame(category) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
-        if (event && event.target && event.target.classList.contains('tab-btn')) {
-            event.target.classList.add('active');
-        } else {
-            if (category === 'all') document.getElementById('btn-all').classList.add('active');
-            if (category === 'grow-a-garden-2') document.getElementById('btn-grow').classList.add('active');
-            if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
-            if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
-            if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
-            if (category === 'pet-simulator-99') document.getElementById('btn-ps99').classList.add('active');
-        }
+        if (category === 'all') document.getElementById('btn-all').classList.add('active');
+        else if (category === 'grow-a-garden-2') document.getElementById('btn-grow').classList.add('active');
+        else if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
+        else if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
+        else if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
+        else if (category === 'pet-simulator-99') document.getElementById('btn-ps99').classList.add('active');
         
         renderItems(category);
     }
 
-    // UPDATE: Fungsi pembersihan total sisa-sisa overlay hitam milik Snap Midtrans
     function cleanBlackscreen() {
         const snapTokenDiv = document.getElementById('snap-token');
         if (snapTokenDiv) snapTokenDiv.remove();
@@ -240,7 +293,6 @@
         const snapEmbed = document.getElementById('snap-embed');
         if (snapEmbed) snapEmbed.remove();
         
-        // Cari paksa elemen overlay bayangan gelap bawaan browser / iframe Snap dan hapus total
         document.querySelectorAll('iframe[id^="snap-instance"], div[class^="snap-"], div[id^="snap-"]').forEach(el => el.remove());
         document.body.style.overflow = 'auto';
     }
@@ -275,6 +327,8 @@
                     onSuccess: function(result) { 
                         alert("Pembayaran Berhasil! " + quantity + "x item akan dikirim ke akun: " + username); 
                         cleanBlackscreen();
+                        // Pengurangan stok manual di sisi front-end karena datanya statis
+                        allItems[itemId].stock -= quantity;
                         loadItems();
                     },
                     onPending: function(result){ 
@@ -286,7 +340,6 @@
                         cleanBlackscreen();
                     },
                     onClose: function(){ 
-                        // Jika popup ditutup paksa / eror "no payment method", paksa hapus layar hitam
                         cleanBlackscreen();
                     }
                 });

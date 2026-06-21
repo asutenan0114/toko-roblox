@@ -43,7 +43,7 @@ app.get('/api/items', (req, res) => {
     res.json(ITEMS_DATABASE);
 });
 
-// Proses Pembuatan Transaksi (Checkout) - Versi Akurat Profil Midtrans
+// Proses Pembuatan Transaksi (Checkout) - Versi Akurat Tanpa Pembatasan Metode Pembayaran
 app.post('/api/checkout', async (req, res) => {
     try {
         const { itemId, robloxUsername, quantity } = req.body;
@@ -61,7 +61,7 @@ app.post('/api/checkout', async (req, res) => {
         const totalAmount = item.price * qty;
         const orderId = `ROBLOX-${itemId}-${qty}-${Date.now()}`;
 
-        // Menggunakan data profil resmi dari akun Midtrans Anda agar lolos verifikasi Live Production
+        // UPDATE: Parameter dioptimalkan, enabled_payments dihapus agar mengikuti dashboard secara dinamis
         let parameter = {
             "transaction_details": { 
                 "order_id": orderId, 
@@ -74,12 +74,11 @@ app.post('/api/checkout', async (req, res) => {
                 "name": `${item.name.substring(0, 45)} (x${qty})`
             }],
             "customer_details": { 
-                "first_name": robloxUsername.replace(/[^a-zA-Z0-9]/g, ""), // Username pembeli
+                "first_name": robloxUsername.replace(/[^a-zA-Z0-9]/g, ""), // Username pembeli bersih dari simbol aneh
                 "last_name": "Store",
-                "email": "slebewbebew545@gmail.com", // Disamakan dengan email profil Midtrans Anda
-                "phone": "+6282119392845" // Disamakan dengan nomor HP profil Midtrans Anda
-            },
-            "enabled_payments": ["gopay", "shopeepay", "qris", "bca_va", "bni_va", "bri_va"]
+                "email": "slebewbebew545@gmail.com", // Sesuai dengan email profil Midtrans Anda
+                "phone": "+6282119392845" // Sesuai dengan nomor HP profil Midtrans Anda
+            }
         };
 
         const transaction = await snap.createTransaction(parameter);
@@ -132,29 +131,3 @@ app.post('/api/payment-notification', (req, res) => {
 
                 const urlParts = new URL(discordWebhookUrl);
                 const options = {
-                    hostname: urlParts.hostname,
-                    path: urlParts.pathname + urlParts.search,
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Content-Length': Buffer.byteLength(discordData)
-                    }
-                };
-
-                const reqDiscord = https.request(options, (discordRes) => {});
-                reqDiscord.on('error', (e) => { console.error("Discord Error: ", e); });
-                reqDiscord.write(discordData);
-                reqDiscord.end();
-            }
-
-            res.status(200).send('OK');
-        }).catch((err) => {
-            console.error(err);
-            res.status(500).send('Error');
-        });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server berjalan di http://localhost:${PORT}`);
-});

@@ -8,20 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 900px; margin: auto; }
-        h1 { color: #2e7d32; }
-        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; margin-bottom: 50px; }
-        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+        .container { max-width: 1000px; margin: auto; }
         
-        /* Gaya untuk Gambar Produk */
+        /* Header & Deskripsi Toko */
+        .hero-section { background: white; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 5px solid #4caf50; }
+        .hero-section h1 { color: #2e7d32; margin: 0 0 10px 0; font-size: 2rem; }
+        .hero-section p { color: #555; font-size: 1.1rem; line-height: 1.6; max-width: 700px; margin: auto; }
+        
+        /* List Game / Kategori Tabs */
+        .game-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 25px 0; }
+        .tab-btn { background-color: #e0e0e0; color: #333; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
+        .tab-btn:hover { background-color: #d5d5d5; }
+        .tab-btn.active { background-color: #4caf50; color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
+
+        /* Grid Produk */
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; margin-bottom: 50px; }
+        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        
         .product-img { width: 120px; height: 120px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #fafafa; padding: 5px; }
-        
         .price { font-size: 1.2rem; color: #e65100; font-weight: bold; margin: 10px 0; }
-        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #ccc; border-radius: 6px; }
-        button { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
-        button:hover { background-color: #45a049; }
+        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #ccc; border-radius: 6px; text-align: center; }
+        button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
+        button.btn-buy:hover { background-color: #45a049; }
         
-        /* Gaya untuk Section Contact Us */
+        /* Contact Us */
         .contact-section { margin-top: 50px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
         .contact-section h2 { color: #333; margin-bottom: 20px; }
         .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
@@ -38,8 +49,19 @@
 <body>
 
 <div class="container">
-    <h1>🌱 Grow a Garden 2 Item Store</h1>
-    <p>Beli item mutasi dan perkakas kebun instan. Pembayaran otomatis via QRIS, DANA, OVO, dll.</p>
+    <div class="hero-section">
+        <h1>🎮 Welcome to Alfid Roblox Store</h1>
+        <p>Kami menyediakan berbagai macam <strong>Item Game Langka, Perkakas Booster, hingga Akun Roblox Premium</strong> dengan proses instan, aman, dan terpercaya. Pembayaran otomatis 24 jam via QRIS, DANA, OVO, LinkAja, dan Transfer Bank Virtual Account.</p>
+    </div>
+
+    <h3>🎯 Pilih Kategori Game Roblox:</h3>
+    <div class="game-tabs">
+        <button class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
+        <button class="tab-btn" onclick="filterGame('grow-a-garden-2')">🌱 Grow A Garden 2</button>
+        <button class="tab-btn" onclick="filterGame('fish-it')">🐟 Fish It</button>
+        <button class="tab-btn" onclick="filterGame('be-flash-for-brainrot')">⚡ Be Flash for Brainrot</button>
+        <button class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
+    </div>
     
     <div class="grid" id="items-container"></div>
 
@@ -67,32 +89,63 @@
 </div>
 
 <script>
+    let allItems = {};
+
+    // Ambil data item dari backend saat website dibuka
     fetch('/api/items')
         .then(res => res.json())
         .then(items => {
-            const container = document.getElementById('items-container');
-            container.innerHTML = ''; 
-            for (let id in items) {
-                // Mengecek apakah ada data image, jika tidak ada pakai gambar kosong/default placeholder
-                const imgUrl = items[id].image ? items[id].image : 'https://placehold.co/120';
+            allItems = items;
+            renderItems('all'); // Tampilkan semua item di awal
+        });
+
+    // Fungsi untuk menampilkan produk berdasarkan kategori game yang dipilih
+    function renderItems(gameCategory) {
+        const container = document.getElementById('items-container');
+        container.innerHTML = ''; 
+        
+        let hasItem = false;
+
+        for (let id in allItems) {
+            // Filter berdasarkan kategori game (jika properti game cocok, atau memilih 'all')
+            if (gameCategory === 'all' || allItems[id].game === gameCategory) {
+                hasItem = true;
+                const imgUrl = allItems[id].image ? allItems[id].image : 'https://placehold.co/120';
                 
                 container.innerHTML += `
                     <div class="card">
                         <div>
-                            <h3>${items[id].name}</h3>
-                            <img src="${imgUrl}" alt="${items[id].name}" class="product-img">
-                            <p>${items[id].desc}</p>
+                            <h3>${allItems[id].name}</h3>
+                            <img src="${imgUrl}" alt="${allItems[id].name}" class="product-img">
+                            <p>${allItems[id].desc}</p>
                         </div>
                         <div style="width: 100%;">
-                            <div class="price">Rp ${items[id].price.toLocaleString('id-ID')}</div>
-                            <input type="text" id="username-${id}" placeholder="Username Roblox Anda" required>
+                            <div class="price">Rp ${allItems[id].price.toLocaleString('id-ID')}</div>
+                            <input type="text" id="username-${id}" placeholder="Username Roblox" required>
                             <br><br>
-                            <button onclick="checkout('${id}')">Beli Sekarang</button>
+                            <button class="btn-buy" onclick="checkout('${id}')">Beli Sekarang</button>
                         </div>
                     </div>
                 `;
             }
-        });
+        }
+
+        if (!hasItem) {
+            container.innerHTML = `<p style="color: #888; font-style: italic; margin-top: 20px;">Stok item atau akun untuk game ini sedang kosong atau belum dimasukkan.</p>`;
+        }
+    }
+
+    // Fungsi mengubah tombol aktif saat di-klik pembeli
+    function filterGame(category) {
+        // Hapus class 'active' dari semua tombol tab
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        // Cari tombol yang di-klik dan beri class 'active'
+        event.target.classList.add('active');
+        
+        // Tampilkan produk yang difilter
+        renderItems(category);
+    }
 
     function checkout(itemId) {
         const username = document.getElementById(`username-${itemId}`).value;

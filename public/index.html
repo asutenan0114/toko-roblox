@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grow a Garden 2 Item Shop</title>
+    <title>Alfid Roblox Store</title>
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-VQQDJnZ33cu4stsw"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -49,22 +49,26 @@
 <body>
 
 <div class="container">
+    <!-- Deskripsi Utama Toko -->
     <div class="hero-section">
         <h1>🎮 Welcome to Alfid Roblox Store</h1>
         <p>Kami menyediakan berbagai macam <strong>Item Game Langka, Perkakas Booster, hingga Akun Roblox Premium</strong> dengan proses instan, aman, dan terpercaya. Pembayaran otomatis 24 jam via QRIS, DANA, OVO, LinkAja, dan Transfer Bank Virtual Account.</p>
     </div>
 
+    <!-- List Kategori Game -->
     <h3>🎯 Pilih Kategori Game Roblox:</h3>
     <div class="game-tabs">
-        <button class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
-        <button class="tab-btn" onclick="filterGame('grow-a-garden-2')">🌱 Grow A Garden 2</button>
-        <button class="tab-btn" onclick="filterGame('fish-it')">🐟 Fish It</button>
-        <button class="tab-btn" onclick="filterGame('be-flash-for-brainrot')">⚡ Be Flash for Brainrot</button>
-        <button class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
+        <button id="btn-all" class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
+        <button id="btn-grow" class="tab-btn" onclick="filterGame('grow-a-garden-2')">🌱 Grow A Garden 2</button>
+        <button id="btn-fish" class="tab-btn" onclick="filterGame('fish-it')">🐟 Fish It</button>
+        <button id="btn-flash" class="tab-btn" onclick="filterGame('be-flash-for-brainrot')">⚡ Be Flash for Brainrot</button>
+        <button id="btn-lucky" class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
     </div>
     
+    <!-- Wadah Kotak Produk -->
     <div class="grid" id="items-container"></div>
 
+    <!-- Bagian Kontak Admin -->
     <div class="contact-section">
         <h2>📞 Contact Us / Hubungi Kami</h2>
         <p>Punya kendala dengan pesanan Anda atau butuh bantuan lebih lanjut? Hubungi admin melalui salah satu kontak di bawah:</p>
@@ -107,7 +111,7 @@
         let hasItem = false;
 
         for (let id in allItems) {
-            // Filter berdasarkan kategori game (jika properti game cocok, atau memilih 'all')
+            // Logika pencocokan kategori game
             if (gameCategory === 'all' || allItems[id].game === gameCategory) {
                 hasItem = true;
                 const imgUrl = allItems[id].image ? allItems[id].image : 'https://placehold.co/120';
@@ -140,10 +144,19 @@
         // Hapus class 'active' dari semua tombol tab
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         
-        // Cari tombol yang di-klik dan beri class 'active'
-        event.target.classList.add('active');
+        // Cari elemen target tombol secara dinamis dan aktifkan styling warnanya
+        if (event && event.target) {
+            event.target.classList.add('active');
+        } else {
+            // Fallback manual berdasarkan kategori jika event object kosong
+            if (category === 'all') document.getElementById('btn-all').classList.add('active');
+            if (category === 'grow-a-garden-2') document.getElementById('btn-grow').classList.add('active');
+            if (category === 'fish-it') document.getElementById('btn-fish').classList.add('active');
+            if (category === 'be-flash-for-brainrot') document.getElementById('btn-flash').classList.add('active');
+            if (category === 'lucky-block-rush') document.getElementById('btn-lucky').classList.add('active');
+        }
         
-        // Tampilkan produk yang difilter
+        // Jalankan ulang fungsi penyaringan data produk
         renderItems(category);
     }
 

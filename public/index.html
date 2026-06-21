@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alfid Roblox Store</title>
     
+    <!-- LOGO ICON INISIAL 'AS' CYBERPUNK NEON GLOW -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><filter id='glow' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='3' result='blur'/><feMerge><feMergeNode in='blur'/><feMergeNode in='blur'/><feMergeNode in='SourceGraphic'/></feMerge></filter></defs><rect width='100' height='100' fill='%231a1a1a' rx='15'/><path d='M 25 35 L 75 35 M 75 35 L 75 50 L 45 50 L 45 65 L 75 65 M 25 35 L 25 65 L 35 65' stroke='%23ff1e27' stroke-width='9' stroke-linecap='square' stroke-linejoin='miter' fill='none' filter='url(%23glow)'/><path d='M 55 35 L 55 42' stroke='%23ff1e27' stroke-width='7' stroke-linecap='square' fill='none' filter='url(%23glow)'/></svg>">
 
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-VQQDJnZ33cu4stsw"></script>
@@ -35,8 +36,25 @@
         button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
         button.btn-buy:hover { background-color: #45a049; }
         
+        /* REPUTASI TOKO SECTION */
+        .reputation-section { margin-top: 50px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 5px solid #ff9800; text-align: left; }
+        .reputation-section h2 { color: #e65100; text-align: center; margin-bottom: 25px; }
+        
+        .stats-grid { display: flex; justify-content: space-around; gap: 15px; flex-wrap: wrap; text-align: center; margin-bottom: 30px; border-bottom: 1px dashed #ddd; padding-bottom: 25px; }
+        .stat-box { flex: 1; min-width: 150px; }
+        .stat-box i { font-size: 2.5rem; color: #ff9800; margin-bottom: 10px; }
+        .stat-number { font-size: 1.8rem; font-weight: bold; color: #333; margin-bottom: 5px; }
+        .stat-label { color: #666; font-size: 0.95rem; }
+
+        .testimonials-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .testi-card { background: #f9f9f9; border-radius: 10px; padding: 20px; width: 280px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); border-left: 4px solid #ff9800; display: flex; flex-direction: column; justify-content: space-between; }
+        .testi-stars { color: #ffca28; margin-bottom: 10px; }
+        .testi-text { font-style: italic; color: #444; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
+        .testi-user { font-weight: bold; color: #222; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+        .testi-user i { color: #4caf50; font-size: 0.85rem; }
+
         /* Contact Us */
-        .contact-section { margin-top: 50px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
+        .contact-section { margin-top: 40px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
         .contact-section h2 { color: #333; margin-bottom: 20px; }
         .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
         .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; font-weight: bold; border-radius: 8px; text-decoration: none; color: white !important; transition: 0.3s; min-width: 180px; border: none; }
@@ -52,11 +70,13 @@
 <body>
 
 <div class="container">
+    <!-- Deskripsi Utama Toko -->
     <div class="hero-section">
         <h1>🎮 Welcome to Alfid Roblox Store</h1>
         <p>Kami menyediakan berbagai macam <strong>Item Game Langka, Perkakas Booster, hingga Akun Roblox Premium</strong> dengan proses instan, aman, dan terpercaya. Pembayaran otomatis 24 jam via QRIS, DANA, OVO, LinkAja, dan Transfer Bank Virtual Account.</p>
     </div>
 
+    <!-- List Kategori Game -->
     <h3>🎯 Pilih Kategori Game Roblox:</h3>
     <div class="game-tabs">
         <button id="btn-all" class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
@@ -66,8 +86,68 @@
         <button id="btn-lucky" class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
     </div>
     
+    <!-- Wadah Kotak Produk -->
     <div class="grid" id="items-container"></div>
 
+    <!-- BAGIAN REPUTASI TOKO & TESTIMONI -->
+    <div class="reputation-section">
+        <h2>🏅 Reputasi & Keunggulan Alfid Store</h2>
+        
+        <!-- Statistik Toko -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <i class="fas fa-shopping-basket"></i>
+                <div class="stat-number">1,250+</div>
+                <div class="stat-label">Pesanan Sukses</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-bolt"></i>
+                <div class="stat-number">&lt; 5 Menit</div>
+                <div class="stat-label">Rata-rata Pengiriman</div>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-star"></i>
+                <div class="stat-number">4.9 / 5.0</div>
+                <div class="stat-label">Rating Kepuasan</div>
+            </div>
+        </div>
+
+        <!-- Contoh Ulasan Pembeli -->
+        <h3 style="text-align: center; color: #444; margin-bottom: 20px;">💬 Apa Kata Pembeli Kami?</h3>
+        <div class="testimonials-grid">
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testi-text">"Gokil sih, nyoba beli Seed Defender di Grow A Garden 2 langsung diproses kilat. Barangnya masuk akurat. Recommended seller!"</p>
+                </div>
+                <div class="testi-user"><i class="fas fa-check-circle"></i> @RianGamerz</div>
+            </div>
+
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testi-text">"Awalnya ragu karena baru pertama beli item game Roblox via QRIS otomatis di sini, pas dicoba langsung dapet nota Discord dan item beres dikirim."</p>
+                </div>
+                <div class="testi-user"><i class="fas fa-check-circle"></i> @Bintang_Blox</div>
+            </div>
+
+            <div class="testi-card">
+                <div>
+                    <div class="testi-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testi-text">"Pelayanan admin ramah banget waktu tanya-tanya ketersediaan item Fish It lewat Telegram. Mantap terus Alfid Store!"</p>
+                </div>
+                <div class="testi-user"><i class="fas fa-check-circle"></i> @SitiRobloxia</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bagian Kontak Admin -->
     <div class="contact-section">
         <h2>📞 Contact Us / Hubungi Kami</h2>
         <p>Punya kendala dengan pesanan Anda atau butuh bantuan lebih lanjut? Hubungi admin melalui salah satu kontak di bawah:</p>

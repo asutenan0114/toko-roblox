@@ -11,7 +11,11 @@
         .container { max-width: 900px; margin: auto; }
         h1 { color: #2e7d32; }
         .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 30px; margin-bottom: 50px; }
-        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; }
+        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+        
+        /* Gaya untuk Gambar Produk */
+        .product-img { width: 120px; height: 120px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #fafafa; padding: 5px; }
+        
         .price { font-size: 1.2rem; color: #e65100; font-weight: bold; margin: 10px 0; }
         input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #ccc; border-radius: 6px; }
         button { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
@@ -69,14 +73,22 @@
             const container = document.getElementById('items-container');
             container.innerHTML = ''; 
             for (let id in items) {
+                // Mengecek apakah ada data image, jika tidak ada pakai gambar kosong/default placeholder
+                const imgUrl = items[id].image ? items[id].image : 'https://placehold.co/120';
+                
                 container.innerHTML += `
                     <div class="card">
-                        <h3>${items[id].name}</h3>
-                        <p>${items[id].desc}</p>
-                        <div class="price">Rp ${items[id].price.toLocaleString('id-ID')}</div>
-                        <input type="text" id="username-${id}" placeholder="Username Roblox Anda" required>
-                        <br><br>
-                        <button onclick="checkout('${id}')">Beli Sekarang</button>
+                        <div>
+                            <h3>${items[id].name}</h3>
+                            <img src="${imgUrl}" alt="${items[id].name}" class="product-img">
+                            <p>${items[id].desc}</p>
+                        </div>
+                        <div style="width: 100%;">
+                            <div class="price">Rp ${items[id].price.toLocaleString('id-ID')}</div>
+                            <input type="text" id="username-${id}" placeholder="Username Roblox Anda" required>
+                            <br><br>
+                            <button onclick="checkout('${id}')">Beli Sekarang</button>
+                        </div>
                     </div>
                 `;
             }

@@ -10,11 +10,11 @@ app.use(express.static('public'));
 
 // Data Item Grow a Garden 2 Anda
 const ITEMS_DATABASE = {
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed." },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler." },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can." },
-    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed." },
-    "item-005": { name: "Pet", price: 15000, desc: "Unicorn." }
+    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/venus-fly-trap.png" },
+    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/super-sprinkler.jpg" },
+    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/super-water-can.jpg" },
+    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/rainbow-seed.jpg" },
+    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png" }
 };
 
 // Menggunakan kunci sandbox universal agar sistem pembayaran langsung aktif

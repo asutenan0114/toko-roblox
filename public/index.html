@@ -10,44 +10,46 @@
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-VQQDJnZ33cu4stsw"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* BACKGROUND DIUBAH MENJADI HITAM PEKAT */
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f0f0f; color: #eeeeee; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 1000px; margin: auto; }
         
-        /* Header & Deskripsi Toko Tema Gelap */
         .hero-section { background: #1a1a1a; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-bottom: 30px; border-top: 5px solid #4caf50; }
         .hero-section h1 { color: #66bb6a; margin: 0 0 10px 0; font-size: 2rem; }
         .hero-section p { color: #ccc; font-size: 1.1rem; line-height: 1.6; max-width: 700px; margin: auto; }
         
-        /* List Game / Kategori Tabs */
         .game-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 25px 0; }
         .tab-btn { background-color: #2a2a2a; color: #ccc; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
         .tab-btn:hover { background-color: #3a3a3a; color: #fff; }
         .tab-btn.active { background-color: #4caf50; color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4); }
 
-        /* Grid & Card Produk Tema Gelap */
         .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; margin-bottom: 50px; }
         .card { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; transition: 0.3s; }
         .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2); }
         .card p { color: #aaa; font-size: 0.9rem; }
         
         .product-img { width: 120px; height: 120px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #252525; padding: 5px; }
-        .price { font-size: 1.2rem; color: #ff9800; font-weight: bold; margin: 10px 0; }
-        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #444; background-color: #252525; color: #fff; border-radius: 6px; text-align: center; }
+        .price { font-size: 1.2rem; color: #ff9800; font-weight: bold; margin: 5px 0; }
+        
+        /* Badge Stok Modis */
+        .stock-badge { background-color: #2a2a2a; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; color: #81c784; border: 1px solid #388e3c; margin-bottom: 10px; font-weight: 500; }
+        .stock-empty { color: #e57373; border-color: #d32f2f; }
+
+        .form-group { width: 85%; margin: 5px 0; text-align: left; }
+        .form-group label { font-size: 0.8rem; color: #aaa; display: block; margin-bottom: 4px; padding-left: 2px; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 10px; border: 1.5px solid #444; background-color: #252525; color: #fff; border-radius: 6px; box-sizing: border-box; }
         input[type="text"]::placeholder { color: #777; }
-        button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; transition: 0.2s; }
+        input[type="number"] { text-align: center; font-weight: bold; }
+        
+        button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; transition: 0.2s; margin-top: 12px; }
         button.btn-buy:hover { background-color: #45a049; }
+        button.btn-buy:disabled { background-color: #444; color: #888; cursor: not-allowed; }
         
-        /* REPUTASI TOKO SATU JALUR (DARK THEME) */
         .reputation-section { margin-top: 40px; padding: 20px; background: #1a1a1a; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-top: 4px solid #ff9800; text-align: center; }
-        
-        /* Statistik Sederhana Sebaris */
         .stats-inline { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; background: #251f15; padding: 12px; border-radius: 8px; border: 1px dashed #e65100; }
         .stat-item { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #ddd; font-weight: 500; }
         .stat-item i { color: #ff9800; font-size: 1.1rem; }
         .stat-item strong { color: #ffb74d; font-size: 1.05rem; }
 
-        /* Review Satu Jalur Horisontal Rapi */
         .testimonials-inline { display: flex; gap: 15px; justify-content: space-between; overflow-x: auto; padding: 5px 0; }
         .testi-card { background: #222222; border-radius: 8px; padding: 12px 15px; flex: 1; min-width: 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); border-left: 3px solid #ff9800; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
         .testi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -56,10 +58,8 @@
         .testi-user i { color: #66bb6a; font-size: 0.8rem; margin-right: 3px; }
         .testi-text { font-style: italic; color: #ccc; font-size: 0.85rem; line-height: 1.4; margin: 0; }
 
-        /* Contact Us Tema Gelap */
         .contact-section { margin-top: 40px; padding: 30px 20px; background: #1a1a1a; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-bottom: 5px solid #4caf50; clear: both; }
         .contact-section h2 { color: #fff; margin-bottom: 20px; }
-        .contact-section p { color: #ccc; }
         .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
         .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; font-weight: bold; border-radius: 8px; text-decoration: none; color: white !important; transition: 0.3s; min-width: 180px; border: none; }
         .contact-btn i { margin-right: 10px; font-size: 1.2rem; }
@@ -151,12 +151,20 @@
 <script>
     let allItems = {};
 
-    fetch('/api/items')
-        .then(res => res.json())
-        .then(items => {
-            allItems = items;
-            renderItems('all'); 
-        });
+    function loadItems() {
+        fetch('/api/items')
+            .then(res => res.json())
+            .then(items => {
+                allItems = items;
+                // Ambil tab aktif saat ini agar saat refresh render posisi tab tidak berubah
+                const activeTab = document.querySelector('.tab-btn.active');
+                const currentCategory = activeTab ? activeTab.id.replace('btn-', '') : 'all';
+                renderItems(currentCategory === 'grow' ? 'grow-a-garden-2' : currentCategory === 'ps99' ? 'pet-simulator-99' : 'all'); 
+            });
+    }
+
+    // Load data pertama kali saat halaman dibuka
+    loadItems();
 
     function renderItems(gameCategory) {
         const container = document.getElementById('items-container');
@@ -165,22 +173,39 @@
         let hasItem = false;
 
         for (let id in allItems) {
-            if (gameCategory === 'all' || allItems[id].game === gameCategory) {
+            const currentItem = allItems[id];
+            if (gameCategory === 'all' || currentItem.game === gameCategory) {
                 hasItem = true;
-                const imgUrl = allItems[id].image ? allItems[id].image : 'https://placehold.co/120';
+                const imgUrl = currentItem.image ? currentItem.image : 'https://placehold.co/120';
+                const isOutOfStock = currentItem.stock <= 0;
                 
                 container.innerHTML += `
                     <div class="card">
                         <div>
-                            <h3>${allItems[id].name}</h3>
-                            <img src="${imgUrl}" alt="${allItems[id].name}" class="product-img">
-                            <p>${allItems[id].desc}</p>
+                            <h3>${currentItem.name}</h3>
+                            <img src="${imgUrl}" alt="${currentItem.name}" class="product-img">
+                            <p>${currentItem.desc}</p>
                         </div>
-                        <div style="width: 100%;">
-                            <div class="price">Rp ${allItems[id].price.toLocaleString('id-ID')}</div>
-                            <input type="text" id="username-${id}" placeholder="Username Roblox" required>
-                            <br><br>
-                            <button class="btn-buy" onclick="checkout('${id}')">Beli Sekarang</button>
+                        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                            <div class="price">Rp ${currentItem.price.toLocaleString('id-ID')}</div>
+                            
+                            <div class="stock-badge ${isOutOfStock ? 'stock-empty' : ''}">
+                                ${isOutOfStock ? '❌ Stok Habis' : '📦 Stok: ' + currentItem.stock}
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Username Roblox:</label>
+                                <input type="text" id="username-${id}" placeholder="Username Anda" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Jumlah Beli:</label>
+                                <input type="number" id="qty-${id}" value="${isOutOfStock ? 0 : 1}" min="1" max="${currentItem.stock}" ${isOutOfStock ? 'disabled' : ''} required>
+                            </div>
+                            
+                            <button class="btn-buy" ${isOutOfStock ? 'disabled' : ''} onclick="checkout('${id}')">
+                                ${isOutOfStock ? 'Stok Kosong' : 'Beli Sekarang'}
+                            </button>
                         </div>
                     </div>
                 `;
@@ -211,21 +236,35 @@
 
     function checkout(itemId) {
         const username = document.getElementById(`username-${itemId}`).value;
+        const quantity = parseInt(document.getElementById(`qty-${itemId}`).value);
+        const maxStock = allItems[itemId].stock;
+
         if (!username) {
             alert('Harap isi Username Roblox Anda terlebih dahulu!');
+            return;
+        }
+        if (!quantity || quantity < 1) {
+            alert('Jumlah item minimal adalah 1!');
+            return;
+        }
+        if (quantity > maxStock) {
+            alert('Jumlah pembelian melebihi stok yang tersedia!');
             return;
         }
 
         fetch('/api/checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ itemId: itemId, robloxUsername: username })
+            body: JSON.stringify({ itemId: itemId, robloxUsername: username, quantity: quantity })
         })
         .then(res => res.json())
         .then(data => {
             if (data.token) {
                 window.snap.pay(data.token, {
-                    onSuccess: function(result){ alert("Pembayaran Berhasil! Item akan dikirim ke akun: " + username); },
+                    onSuccess: function(result) { 
+                        alert("Pembayaran Berhasil! " + quantity + "x item akan dikirim ke akun: " + username); 
+                        loadItems(); // Refresh data stok di halaman depan setelah berhasil bayar
+                    },
                     onPending: function(result){ alert("Menunggu pembayaran Anda."); },
                     onError: function(result){ alert("Pembayaran gagal, silahkan coba lagi."); }
                 });

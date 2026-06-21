@@ -8,51 +8,56 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// Data Item Berbagai Game (SUDAH DITAMBAHKAN PET SIMULATOR 99)
-const ITEMS_DATABASE = {
-    // --- ITEM GROW A GARDEN 2 ---
-    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2" },
-    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2" },
-    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2" },
-    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg", game: "grow-a-garden-2" },
-    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2" },
+// Data Item Berbagai Game (SUDAH DITAMBAHKAN STOK)
+let ITEMS_DATABASE = {
+    "item-001": { name: "Seed Defender", price: 8000, desc: "Venus Fly Trap seed.", image: "/Venus Fly Trap seed.png", game: "grow-a-garden-2", stock: 50 },
+    "item-002": { name: "Fasting grow Fruit", price: 5000, desc: "Super Sprinkler.", image: "/Super Sprinkler.jpg", game: "grow-a-garden-2", stock: 30 },
+    "item-003": { name: "Grow up Fruit", price: 5000, desc: "Super Water Can.", image: "/Super Water Can.jpg", game: "grow-a-garden-2", stock: 25 },
+    "item-004": { name: "Seed Event", price: 3000, desc: "Rainbow Seed.", image: "/Rainbow Seed.jpg", game: "grow-a-garden-2", stock: 100 },
+    "item-005": { name: "Pet", price: 15000, desc: "Unicorn.", image: "/pet-unicorn.png", game: "grow-a-garden-2", stock: 10 },
     
-    // --- ITEM PET SIMULATOR 99 ---
     "item-006": { 
-        name: "1B Gems / Diamonds", 
-        price: 22000, 
+        name: "10.000.000 Gems / Diamonds", 
+        price: 15000, 
         desc: "Gems legal aman proses cepat via Mailbox.", 
         image: "/gems.jpg", 
-        game: "pet-simulator-99"
+        game: "pet-simulator-99",
+        stock: 15 // Contoh stok awal gems
     }
 };
 
-// Menggunakan kunci sandbox universal agar sistem pembayaran langsung aktif
 let snap = new midtransClient.Snap({
     isProduction: false,
     serverKey: process.env.MIDTRANS_SERVER_KEY || 'SB-Mid-server-ToDWmJ7ik3ydiDynamicKey'
 });
 
-// Endpoint untuk mengambil data item ke halaman depan
+// Endpoint mengambil data item beserta informasi stok terbaru
 app.get('/api/items', (req, res) => {
     res.json(ITEMS_DATABASE);
 });
 
-// Endpoint untuk proses pembuatan token pembayaran Midtrans
 app.post('/api/checkout', async (req, res) => {
     try {
-        const { itemId, robloxUsername } = req.body;
+        const { itemId, robloxUsername, quantity } = req.body;
         const item = ITEMS_DATABASE[itemId];
+        const qty = parseInt(quantity) || 1;
 
-        if (!item || !robloxUsername) {
+        if (!item || !robloxUsername || qty < 1) {
             return res.status(400).json({ error: "Data tidak valid!" });
         }
 
-        const orderId = `GAG2-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        // Cek apakah stok mencukupi sebelum membuat link pembayaran
+        if (item.stock < qty) {
+            return res.status(400).json({ error: `Stok tidak mencukupi! Sisa stok saat ini: ${item.stock}` });
+        }
+
+        const totalAmount = item.price * qty;
+        // Menyimpan info itemId dan kuantitas di dalam Order ID agar bisa dibaca saat notifikasi sukses
+        const orderId = `ROBLOX-${itemId}-${qty}-${Date.now()}`;
 
         let parameter = {
-            "transaction_details": { "order_id": orderId, "gross_amount": item.price },
-            "item_details": [{ "id": itemId, "price": item.price, "quantity": 1, "name": item.name }],
+            "transaction_details": { "order_id": orderId, "gross_amount": totalAmount },
+            "item_details": [{ "id": itemId, "price": item.price, "quantity": qty, "name": `${item.name} (x${qty})` }],
             "customer_details": { "first_name": robloxUsername, "email": `${robloxUsername}@robloxuser.com` },
             "enabled_payments": ["gopay", "shopeepay", "qris", "bca_va", "bni_va", "bri_va"]
         };
@@ -66,20 +71,31 @@ app.post('/api/checkout', async (req, res) => {
     }
 });
 
-// Endpoint notifikasi ketika pembeli selesai membayar
+// Kurangi stok otomatis ketika notifikasi pembayaran sukses diterima
 app.post('/api/payment-notification', (req, res) => {
     let notificationJson = req.body;
     snap.transaction.notification(notificationJson)
         .then((statusResponse) => {
             let orderId = statusResponse.order_id;
             let transactionStatus = statusResponse.transaction_status;
-            let fraudStatus = statusResponse.fraud_status;
             let grossAmount = statusResponse.gross_amount;
             let robloxUsername = statusResponse.customer_details ? statusResponse.customer_details.first_name : "Unknown";
 
             const discordWebhookUrl = "https://discord.com/api/webhooks/1518106290440769577/-1ihe8omRW-l9RW7S6piMGWZAkR66bi-X2AnKvIX-p1XoilNHljKbnInJfpOCqIyKTru";
 
             if (transactionStatus == 'capture' || transactionStatus == 'settlement') {
+                // Ekstrak itemId dan qty dari format Order ID kita tadi
+                const parts = orderId.split('-');
+                if (parts[1] === 'item' && parts[2]) {
+                    const targetItemId = `${parts[1]}-${parts[2]}`;
+                    const purchasedQty = parseInt(parts[3]) || 1;
+
+                    // Logika memotong stok di server
+                    if (ITEMS_DATABASE[targetItemId]) {
+                        ITEMS_DATABASE[targetItemId].stock = Math.max(0, ITEMS_DATABASE[targetItemId].stock - purchasedQty);
+                    }
+                }
+
                 if (discordWebhookUrl) {
                     fetch(discordWebhookUrl, {
                         method: 'POST',

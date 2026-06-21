@@ -18,7 +18,7 @@ let ITEMS_DATABASE = {
     
     "item-006": { 
         name: "10.000.000 Gems / Diamonds", 
-        price: 15000, 
+        price: 22000, 
         desc: "Gems legal aman proses cepat via Mailbox.", 
         image: "/gems.jpg", 
         game: "pet-simulator-99",

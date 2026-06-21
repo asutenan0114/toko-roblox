@@ -5,58 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alfid Roblox Store</title>
     
-    <!-- LOGO ICON INISIAL 'AS' CYBERPUNK NEON GLOW -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><filter id='glow' x='-20%25' y='-20%25' width='140%25' height='140%25'><feGaussianBlur stdDeviation='3' result='blur'/><feMerge><feMergeNode in='blur'/><feMergeNode in='blur'/><feMergeNode in='SourceGraphic'/></feMerge></filter></defs><rect width='100' height='100' fill='%231a1a1a' rx='15'/><path d='M 25 35 L 75 35 M 75 35 L 75 50 L 45 50 L 45 65 L 75 65 M 25 35 L 25 65 L 35 65' stroke='%23ff1e27' stroke-width='9' stroke-linecap='square' stroke-linejoin='miter' fill='none' filter='url(%23glow)'/><path d='M 55 35 L 55 42' stroke='%23ff1e27' stroke-width='7' stroke-linecap='square' fill='none' filter='url(%23glow)'/></svg>">
 
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-VQQDJnZ33cu4stsw"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        /* BACKGROUND DIUBAH MENJADI HITAM PEKAT */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f0f0f; color: #eeeeee; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 1000px; margin: auto; }
         
-        /* Header & Deskripsi Toko */
-        .hero-section { background: white; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 30px; border-top: 5px solid #4caf50; }
-        .hero-section h1 { color: #2e7d32; margin: 0 0 10px 0; font-size: 2rem; }
-        .hero-section p { color: #555; font-size: 1.1rem; line-height: 1.6; max-width: 700px; margin: auto; }
+        /* Header & Deskripsi Toko Tema Gelap */
+        .hero-section { background: #1a1a1a; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); margin-bottom: 30px; border-top: 5px solid #4caf50; }
+        .hero-section h1 { color: #66bb6a; margin: 0 0 10px 0; font-size: 2rem; }
+        .hero-section p { color: #ccc; font-size: 1.1rem; line-height: 1.6; max-width: 700px; margin: auto; }
         
         /* List Game / Kategori Tabs */
         .game-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin: 25px 0; }
-        .tab-btn { background-color: #e0e0e0; color: #333; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
-        .tab-btn:hover { background-color: #d5d5d5; }
-        .tab-btn.active { background-color: #4caf50; color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); }
+        .tab-btn { background-color: #2a2a2a; color: #ccc; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 0.95rem; }
+        .tab-btn:hover { background-color: #3a3a3a; color: #fff; }
+        .tab-btn.active { background-color: #4caf50; color: white; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4); }
 
-        /* Grid Produk */
+        /* Grid & Card Produk Tema Gelap */
         .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 20px; margin-bottom: 50px; }
-        .card { background: white; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+        .card { background: #1a1a1a; color: #fff; border-radius: 12px; padding: 20px; width: 250px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-top: 5px solid #4caf50; display: flex; flex-direction: column; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 6px 16px rgba(76, 175, 80, 0.2); }
+        .card p { color: #aaa; font-size: 0.9rem; }
         
-        .product-img { width: 120px; height: 120px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #fafafa; padding: 5px; }
-        .price { font-size: 1.2rem; color: #e65100; font-weight: bold; margin: 10px 0; }
-        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #ccc; border-radius: 6px; text-align: center; }
-        button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; }
+        .product-img { width: 120px; height: 120px; object-fit: contain; margin: 15px 0; border-radius: 8px; background-color: #252525; padding: 5px; }
+        .price { font-size: 1.2rem; color: #ff9800; font-weight: bold; margin: 10px 0; }
+        input[type="text"] { width: 80%; padding: 10px; margin: 10px 0; border: 1.5px solid #444; background-color: #252525; color: #fff; border-radius: 6px; text-align: center; }
+        input[type="text"]::placeholder { color: #777; }
+        button.btn-buy { background-color: #4caf50; color: white; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 85%; transition: 0.2s; }
         button.btn-buy:hover { background-color: #45a049; }
         
-        /* REPUTASI TOKO SATU JALUR (SLIM LINEAR) */
-        .reputation-section { margin-top: 40px; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-top: 4px solid #ff9800; text-align: center; }
+        /* REPUTASI TOKO SATU JALUR (DARK THEME) */
+        .reputation-section { margin-top: 40px; padding: 20px; background: #1a1a1a; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-top: 4px solid #ff9800; text-align: center; }
         
         /* Statistik Sederhana Sebaris */
-        .stats-inline { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; background: #fffcf7; padding: 12px; border-radius: 8px; border: 1px dashed #ffe0b2; }
-        .stat-item { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #444; font-weight: 500; }
+        .stats-inline { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 15px; background: #251f15; padding: 12px; border-radius: 8px; border: 1px dashed #e65100; }
+        .stat-item { display: inline-flex; align-items: center; gap: 8px; font-size: 0.95rem; color: #ddd; font-weight: 500; }
         .stat-item i { color: #ff9800; font-size: 1.1rem; }
-        .stat-item strong { color: #e65100; font-size: 1.05rem; }
+        .stat-item strong { color: #ffb74d; font-size: 1.05rem; }
 
         /* Review Satu Jalur Horisontal Rapi */
         .testimonials-inline { display: flex; gap: 15px; justify-content: space-between; overflow-x: auto; padding: 5px 0; }
-        .testi-card { background: #f9f9f9; border-radius: 8px; padding: 12px 15px; flex: 1; min-width: 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border-left: 3px solid #ff9800; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .testi-card { background: #222222; border-radius: 8px; padding: 12px 15px; flex: 1; min-width: 220px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); border-left: 3px solid #ff9800; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
         .testi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .testi-stars { color: #ffca28; font-size: 0.8rem; }
-        .testi-user { font-weight: bold; color: #222; font-size: 0.85rem; }
-        .testi-user i { color: #4caf50; font-size: 0.8rem; margin-right: 3px; }
-        .testi-text { font-style: italic; color: #555; font-size: 0.85rem; line-height: 1.4; margin: 0; }
+        .testi-user { font-weight: bold; color: #eee; font-size: 0.85rem; }
+        .testi-user i { color: #66bb6a; font-size: 0.8rem; margin-right: 3px; }
+        .testi-text { font-style: italic; color: #ccc; font-size: 0.85rem; line-height: 1.4; margin: 0; }
 
-        /* Contact Us */
-        .contact-section { margin-top: 40px; padding: 30px 20px; background: white; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-bottom: 5px solid #4caf50; clear: both; }
-        .contact-section h2 { color: #333; margin-bottom: 20px; }
+        /* Contact Us Tema Gelap */
+        .contact-section { margin-top: 40px; padding: 30px 20px; background: #1a1a1a; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); border-bottom: 5px solid #4caf50; clear: both; }
+        .contact-section h2 { color: #fff; margin-bottom: 20px; }
+        .contact-section p { color: #ccc; }
         .contact-grid { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px; }
         .contact-btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; font-weight: bold; border-radius: 8px; text-decoration: none; color: white !important; transition: 0.3s; min-width: 180px; border: none; }
         .contact-btn i { margin-right: 10px; font-size: 1.2rem; }
@@ -71,14 +74,12 @@
 <body>
 
 <div class="container">
-    <!-- Deskripsi Utama Toko -->
     <div class="hero-section">
         <h1>🎮 Welcome to Alfid Roblox Store</h1>
         <p>Kami menyediakan berbagai macam <strong>Item Game Langka, Perkakas Booster, hingga Akun Roblox Premium</strong> dengan proses instan, aman, dan terpercaya. Pembayaran otomatis 24 jam via QRIS, DANA, OVO, LinkAja, dan Transfer Bank Virtual Account.</p>
     </div>
 
-    <!-- List Kategori Game -->
-    <h3>🎯 Pilih Kategori Game Roblox:</h3>
+    <h3 style="color: #fff;">🎯 Pilih Kategori Game Roblox:</h3>
     <div class="game-tabs">
         <button id="btn-all" class="tab-btn active" onclick="filterGame('all')">🌟 Semua Game</button>
         <button id="btn-grow" class="tab-btn" onclick="filterGame('grow-a-garden-2')">🌱 Grow A Garden 2</button>
@@ -87,19 +88,15 @@
         <button id="btn-lucky" class="tab-btn" onclick="filterGame('lucky-block-rush')">📦 Lucky Block Rush</button>
     </div>
     
-    <!-- Wadah Kotak Produk -->
     <div class="grid" id="items-container"></div>
 
-    <!-- BAGIAN REPUTASI TOKO SATU JALUR SLIM -->
     <div class="reputation-section">
-        <!-- Stats Baris Ramping -->
         <div class="stats-inline">
             <div class="stat-item"><i class="fas fa-shopping-basket"></i> <strong>1,250+</strong> Sukses</div>
             <div class="stat-item"><i class="fas fa-bolt"></i> Proses <strong>&lt; 5 Menit</strong></div>
             <div class="stat-item"><i class="fas fa-star"></i> Rating <strong>4.9 / 5.0</strong></div>
         </div>
 
-        <!-- Ulasan Horizontal Satu Jalur -->
         <div class="testimonials-inline">
             <div class="testi-card">
                 <div class="testi-header">
@@ -127,7 +124,6 @@
         </div>
     </div>
 
-    <!-- Bagian Kontak Admin -->
     <div class="contact-section">
         <h2>📞 Contact Us / Hubungi Kami</h2>
         <p>Punya kendala dengan pesanan Anda atau butuh bantuan lebih lanjut? Hubungi admin melalui salah satu kontak di bawah:</p>
@@ -144,7 +140,7 @@
             </a>
         </div>
 
-        <div style="margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px; color: #555; font-size: 0.95rem; line-height: 1.6;">
+        <div style="margin-top: 30px; border-top: 1px dashed #444; padding-top: 20px; color: #aaa; font-size: 0.95rem; line-height: 1.6;">
             <p>📢 <strong>Jam Operasional Layanan Admin:</strong> 08.00 - 22.00 WIB</p>
             <p>⚠️ Jika setelah melakukan pembayaran item belum terkirim dalam 10 menit, segera hubungi kontak di atas dengan menyertakan foto bukti bayar atau <strong>Order ID</strong> pesanan Anda.</p>
         </div>
